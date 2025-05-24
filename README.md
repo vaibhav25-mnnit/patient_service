@@ -1,6 +1,6 @@
 # Patient Service
 ## Api Description
-[View API Documentation](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/vaibhav25-mnnit/patient_service/master/openapi.yaml)
+[View API Documentation](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/vaibhav25-mnnit/patient_service/master/openapil.yaml)
 ### /patients/{id}
 
 #### GET
