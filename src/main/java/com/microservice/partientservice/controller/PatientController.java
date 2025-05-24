@@ -38,6 +38,13 @@ public class PatientController {
         return ResponseEntity.ok().body(patientService.getAllPatients());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PatientResponseDTO> getPatient(@PathVariable UUID id)
+    {
+        PatientResponseDTO res = patientService.getPatient(id);
+        return ResponseEntity.ok().body(res);
+    }
+
     @PostMapping
     public ResponseEntity<PatientResponseDTO> createPatient(@Validated({Default.class, CreatePatientValidationGroup.class}) @RequestBody PatientRequestDTO patientRequestDTO)
     {

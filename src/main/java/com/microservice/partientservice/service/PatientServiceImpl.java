@@ -31,6 +31,13 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
+    public PatientResponseDTO getPatient(UUID id)
+    {
+        Patient foundPatient = patientRepository.findById(id).orElseThrow(()-> new PatientNotFoundException("Patient not found with ID: "+id));
+
+        return PatientMapper.toDTO(foundPatient);
+    }
+    @Override
     public PatientResponseDTO addPatient(PatientRequestDTO patient) {
         if(patientRepository.existsByEmail(patient.getEmail())){
             throw  new EmailAlreadyExistException("A patient with "+patient.getEmail()+"email already exists.");
@@ -42,7 +49,6 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public PatientResponseDTO updatePatient(UUID id, PatientRequestDTO patient) {
-        System.out.println("In service function for update");
         Patient foundPatient = patientRepository.findById(id).orElseThrow(()-> new PatientNotFoundException("Patient not found with ID: "+id));
 
         if(patientRepository.existsByEmailAndIdNot(patient.getEmail(),id)){
