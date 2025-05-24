@@ -42,16 +42,17 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public PatientResponseDTO updatePatient(UUID id, PatientRequestDTO patient) {
+        System.out.println("In service function for update");
         Patient foundPatient = patientRepository.findById(id).orElseThrow(()-> new PatientNotFoundException("Patient not found with ID: "+id));
 
-        if(patientRepository.existsByEmail(patient.getEmail())){
+        if(patientRepository.existsByEmailAndIdNot(patient.getEmail(),id)){
             throw  new EmailAlreadyExistException("A patient with "+patient.getEmail()+"email already exists.");
         }
 
         foundPatient.setName(patient.getName());
         foundPatient.setEmail(patient.getEmail());
         foundPatient.setAddress(patient.getAddress());
-        foundPatient.setDateofBirth(LocalDate.parse(patient.getDateofBirth()));
+        foundPatient.setDateofBirth(LocalDate.parse(patient.getDateOfBirth()));
 
         Patient updatedPatient = patientRepository.save(foundPatient);
 
@@ -59,5 +60,10 @@ public class PatientServiceImpl implements PatientService{
 
     }
 
-
+    @Override
+    public void deletePatient(UUID id)
+    {
+        patientRepository.deleteById(id);
+        return;
+    }
 }
