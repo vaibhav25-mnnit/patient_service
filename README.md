@@ -1,6 +1,6 @@
-# OpenAPI definition
-## Version: v0
-
+# Patient Service
+## Api Description
+[View API Documentation](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/vaibhav25-mnnit/patient_service/master/openapi.yaml)
 ### /patients/{id}
 
 #### GET
@@ -88,7 +88,7 @@ Create a New Patient
 | 200 | OK |
 
 
-[View API Documentation](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/vaibhav25-mnnit/patient_service/openapi.yaml)
+
 
 you can also view the api documentation
 http://localhost:4000/v3/api-docs
