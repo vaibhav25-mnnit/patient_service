@@ -4,6 +4,8 @@ import com.microservice.partientservice.dto.PatientRequestDTO;
 import com.microservice.partientservice.dto.PatientResponseDTO;
 import com.microservice.partientservice.exception.EmailAlreadyExistException;
 import com.microservice.partientservice.exception.PatientNotFoundException;
+import com.microservice.partientservice.grpc.BillingServiceGrpcClient;
+import com.microservice.partientservice.grpc.BillingServiceGrpcClientImpl;
 import com.microservice.partientservice.mapper.PatientMapper;
 import com.microservice.partientservice.modal.Patient;
 import com.microservice.partientservice.repository.PatientRepository;
@@ -17,11 +19,13 @@ import java.util.UUID;
 @Service
 public class PatientServiceImpl implements PatientService{
     PatientRepository patientRepository;
+    BillingServiceGrpcClient billingServiceGrpcClient;
 
     @Autowired
-    PatientServiceImpl(PatientRepository patientRepository)
+    public PatientServiceImpl(PatientRepository patientRepository, BillingServiceGrpcClient billingServiceGrpcClient)
     {
         this.patientRepository = patientRepository;
+        this.billingServiceGrpcClient = billingServiceGrpcClient;
     }
 
     @Override
@@ -44,6 +48,9 @@ public class PatientServiceImpl implements PatientService{
         }
         Patient newPatient = patientRepository.save(PatientMapper.toPatient(patient));
         System.out.println(newPatient);
+
+        //call to billing service via grpc to create new account of created patient
+        billingServiceGrpcClient.createBillingAccount(newPatient.getId().toString(),newPatient.getName(),newPatient.getEmail());
         return PatientMapper.toDTO(newPatient);
     }
 
